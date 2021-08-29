@@ -51,9 +51,27 @@ class MainActivity : AppCompatActivity() {
         resultTextView.text = calculateResults()
     }
 
-    private fun calculateResults(): String{
-        return  ""
+    private fun calculateResults(): String {
+        return ""
     }
 
+    private fun digitsOperators(): MutableList<Any> {
+        val list = mutableListOf<Any>()
+        var currentDigit = ""
+        for (character in workingTextView.text) {
+            if (character.isDigit() || character == '.')
+                currentDigit += character
+            else {
+                list.add(currentDigit.toFloat())
+                currentDigit = ""
+                list.add(character)
+            }
+        }
+
+        if (currentDigit != "")
+            list.add(currentDigit.toFloat())
+
+        return list
+    }
 
 }
