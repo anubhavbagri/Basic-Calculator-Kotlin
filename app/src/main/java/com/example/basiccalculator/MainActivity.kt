@@ -4,151 +4,150 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    private var isOperationPossible = false
-    private var isPercentPossible = true
-    private var isDecimalPossible = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
-
-    fun numberTap(view: View) {
-        if (view is Button) {
-            if (view.text == ".") {
-                if (isDecimalPossible){
-                    findViewById(R.id.workingTextView).setText(view.text)
+    var isNewOp=true
+    var dot=false
+    fun buNumberEvent(view: View)
+    {
+        if(isNewOp)
+        {
+            workingTextView.text = ""
+        }
+        isNewOp=false
+        val buSelect= view as Button
+        var buClickValue:String=workingTextView.text.toString()
+        when(buSelect.id)
+        {
+            bu0.id->
+            {
+                buClickValue+="0"
+            }
+            bu1.id->
+            {
+                buClickValue+="1"
+            }
+            bu2.id->
+            {
+                buClickValue+="2"
+            }
+            bu3.id->
+            {
+                buClickValue+="3"
+            }
+            bu4.id->
+            {
+                buClickValue+="4"
+            }
+            bu5.id->
+            {
+                buClickValue+="5"
+            }
+            bu6.id->
+            {
+                buClickValue+="6"
+            }
+            bu7.id->
+            {
+                buClickValue+="7"
+            }
+            bu8.id->
+            {
+                buClickValue+="8"
+            }
+            bu9.id->
+            {
+                buClickValue+="9"
+            }
+            buDot.id->
+            {
+                if(!dot)
+                {
+                    buClickValue += "."
                 }
-                isDecimalPossible = false
-            } else
-                workingTextView.append(view.text)
-            isOperationPossible = true
+                dot=true
+            }
+            buPlusMinus.id->
+            {
+                buClickValue= "-$buClickValue"
+            }
         }
+        workingTextView.text = buClickValue
     }
+    var op="X"
+    var oldNumber=""
 
-    fun operatorTap(view: View) {
-        if (view is Button && isOperationPossible) {
-            workingTextView.append(view.text)
-            isOperationPossible = false
-            isDecimalPossible = true
+    fun buOpEvent(view: View)
+    {
+        val buSelect= view as Button
+        when(buSelect.id)
+        {
+            buMul.id->
+            {
+                op="X"
+            }
+            buDiv.id->
+            {
+                op="÷"
+            }
+            buSub.id->
+            {
+                op="-"
+            }
+            buSum.id->
+            {
+                op="+"
+            }
         }
+        oldNumber=workingTextView.text.toString()
+        isNewOp=true
+        dot=false
     }
 
-    fun percentTap(view: View) {
-//        if (view is Button && isOperationPossible && isPercentPossible) {
-//            resultTextView.text = ((view.text as Float)/100.0).toString()
-//            isPercentPossible = false
-////            isOperationPossible = false
-//        }
+    fun buEqualEvent(view: View)
+    {
+        val newNumber=workingTextView.text.toString()
+        var finalNumber:Double?=null
+        when(op)
+        {
+            "X"->
+            {
+                finalNumber=oldNumber.toDouble() * newNumber.toDouble()
+            }
+            "÷"->
+            {
+                finalNumber=oldNumber.toDouble() / newNumber.toDouble()
+            }
+            "-"->
+            {
+                finalNumber=oldNumber.toDouble() - newNumber.toDouble()
+            }
+            "+"->
+            {
+                finalNumber=oldNumber.toDouble() + newNumber.toDouble()
+            }
+        }
+        workingTextView.text = finalNumber.toString()
+        isNewOp=true
     }
 
-    fun allClearTap(view: View) {
+    fun buPercentEvent(view: View)
+    {
+        val number=(workingTextView.text.toString().toDouble())/100
+        workingTextView.text = number.toString()
+        isNewOp=true
+    }
+
+    fun buCleanEvent(view: View)
+    {
         workingTextView.text = ""
-        resultTextView.text = ""
-        isPercentPossible = true
+        isNewOp=true
+        dot=false
     }
-
-    fun backspaceTap(view: View) {
-        val length = workingTextView.length()
-        if (length > 0) {
-            workingTextView.text = workingTextView.text.subSequence(0, length - 1)
-        }
-    }
-
-    fun equalsTap(view: View) {
-        println("~~~~~~~~~~~~~~~~~~~~~~~~")
-//        findViewById(resultTextView)
-        resultTextView.text = calculateResults()
-    }
-
-    private fun calculateResults(): String {
-
-        val digitsOperators = digitsOperators()
-        if (digitsOperators.isEmpty()) return ""
-
-        val multiplyDivide = multiplyDivideCalculation(digitsOperators)
-        if (multiplyDivide.isEmpty()) return ""
-
-        val result = additionSubtractionCalculation(multiplyDivide)
-        return result.toString()
-    }
-
-    private fun additionSubtractionCalculation(passedList: MutableList<Any>): Float {
-        var result = passedList[0] as Float
-
-        for (i in passedList.indices) {
-            if (passedList[i] is Char && i != passedList.lastIndex) {
-                val op = passedList[i]
-                val nextDigit = passedList[i + 1] as Float
-                if (op == '+')
-                    result += nextDigit
-                if (op == '–')
-                    result -= nextDigit
-            }
-        }
-        return result
-    }
-
-    private fun multiplyDivideCalculation(passedList: MutableList<Any>): MutableList<Any> {
-        var list = passedList
-        while (list.contains('×') || list.contains('÷')) {
-            list = calcMultiplyDivide(list)
-        }
-        return list
-    }
-
-    private fun calcMultiplyDivide(passedList: MutableList<Any>): MutableList<Any> {
-        val newList = mutableListOf<Any>()
-        var restartIndex = passedList.size
-
-        for (i in passedList.indices) {
-            if (passedList[i] is Char && i != passedList.lastIndex && i < restartIndex) {
-                val operator = passedList[i]
-                val prevDigit = passedList[i - 1] as Float
-                val nextDigit = passedList[i + 1] as Float
-                when (operator) {
-                    'x' -> {
-                        newList.add(prevDigit * nextDigit)
-                        restartIndex = i + 1
-                    }
-                    '/' -> {
-                        newList.add(prevDigit / nextDigit)
-                        restartIndex = i + 1
-                    }
-                    // found addition or subtraction
-                    else -> {
-                        newList.add(prevDigit)
-                        newList.add(operator)
-                    }
-                }
-            }
-
-            if (i > restartIndex)
-                newList.add(passedList[i])
-        }
-        return newList
-    }
-
-    private fun digitsOperators(): MutableList<Any> {
-        val list = mutableListOf<Any>()
-        var currentDigit = ""
-        for (character in workingTextView.text) {
-            if (character.isDigit() || character == '.')
-                currentDigit += character
-            else {
-                list.add(currentDigit.toFloat())
-                currentDigit = ""
-                list.add(character)
-            }
-        }
-
-        if (currentDigit != "")
-            list.add(currentDigit.toFloat())
-
-        return list
-    }
-
 }
