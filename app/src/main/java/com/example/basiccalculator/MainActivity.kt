@@ -2,12 +2,13 @@ package com.example.basiccalculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private var isOperationPossible = false
+    private var isPercentPossible = true
     private var isDecimalPossible = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,11 +16,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun numberTap(view: android.view.View) {
+    fun numberTap(view: View) {
         if (view is Button) {
             if (view.text == ".") {
-                if (isDecimalPossible)
-                    workingTextView.append(view.text)
+                if (isDecimalPossible){
+                    findViewById(R.id.workingTextView).setText(view.text)
+                }
                 isDecimalPossible = false
             } else
                 workingTextView.append(view.text)
@@ -27,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun operatorTap(view: android.view.View) {
+    fun operatorTap(view: View) {
         if (view is Button && isOperationPossible) {
             workingTextView.append(view.text)
             isOperationPossible = false
@@ -35,19 +37,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun allClearTap(view: android.view.View) {
-        workingTextView.text = ""
-        resultTextView.text = ""
+    fun percentTap(view: View) {
+//        if (view is Button && isOperationPossible && isPercentPossible) {
+//            resultTextView.text = ((view.text as Float)/100.0).toString()
+//            isPercentPossible = false
+////            isOperationPossible = false
+//        }
     }
 
-    fun backspaceTap(view: android.view.View) {
+    fun allClearTap(view: View) {
+        workingTextView.text = ""
+        resultTextView.text = ""
+        isPercentPossible = true
+    }
+
+    fun backspaceTap(view: View) {
         val length = workingTextView.length()
         if (length > 0) {
             workingTextView.text = workingTextView.text.subSequence(0, length - 1)
         }
     }
 
-    fun equalsTap(view: android.view.View) {
+    fun equalsTap(view: View) {
+        println("~~~~~~~~~~~~~~~~~~~~~~~~")
+//        findViewById(resultTextView)
         resultTextView.text = calculateResults()
     }
 
