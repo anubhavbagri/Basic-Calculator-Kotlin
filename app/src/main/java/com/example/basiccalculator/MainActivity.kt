@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         }
         workingTextView.text = buClickValue
     }
-    var op="X"
+    var op="×"
     var oldNumber=""
 
     fun buOpEvent(view: View)
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         {
             buMul.id->
             {
-                op="X"
+                op="×"
             }
             buDiv.id->
             {
@@ -120,7 +120,7 @@ class MainActivity : AppCompatActivity() {
         var finalNumber:Double?=null
         when(op)
         {
-            "X"->
+            "×"->
             {
                 finalNumber=oldNumber.toDouble() * newNumber.toDouble()
             }
