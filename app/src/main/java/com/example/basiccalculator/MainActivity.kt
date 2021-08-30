@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     }
     var isNewOp=true
     var dot=false
+    var signChange = true
     fun buNumberEvent(view: View)
     {
         if(isNewOp)
@@ -75,7 +76,10 @@ class MainActivity : AppCompatActivity() {
             }
             buPlusMinus.id->
             {
-                buClickValue= "-$buClickValue"
+                if(signChange){
+                    buClickValue= "-$buClickValue"
+                }
+                signChange = false
             }
         }
         workingTextView.text = buClickValue
