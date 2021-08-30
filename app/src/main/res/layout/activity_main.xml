@@ -49,7 +49,8 @@
 
         <Button
             style="@style/buttonOperator"
-            android:onClick="allClearTap"
+            android:id="@+id/buAC"
+            android:onClick="buCleanEvent"
             android:text="AC"
             android:textSize="25sp" />
 
@@ -61,10 +62,13 @@
 
         <Button
             style="@style/buttonOperator"
+            android:id="@+id/buPer"
+            android:onClick="buPercentEvent"
             android:text="%" />
 
         <Button
             style="@style/buttonOperator"
+            android:id="@+id/buDiv"
             android:text="÷" />
     </LinearLayout>
 
@@ -72,18 +76,22 @@
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu7"
             android:text="7" />
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu8"
             android:text="8" />
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu9"
             android:text="9" />
 
         <Button
             style="@style/buttonOperator"
+            android:id="@+id/buMul"
             android:text="×" />
     </LinearLayout>
 
@@ -91,18 +99,22 @@
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu4"
             android:text="4" />
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu5"
             android:text="5" />
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu6"
             android:text="6" />
 
         <Button
             style="@style/buttonOperator"
+            android:id="@+id/buSub"
             android:text="–" />
     </LinearLayout>
 
@@ -110,18 +122,22 @@
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu1"
             android:text="1" />
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu2"
             android:text="2" />
 
         <Button
             style="@style/buttonNumber"
+            android:id="@+id/bu3"
             android:text="3" />
 
         <Button
             style="@style/buttonOperator"
+            android:id="@+id/buSum"
             android:text="+" />
     </LinearLayout>
 
@@ -129,7 +145,13 @@
 
         <Button
             style="@style/buttonNumber"
-            android:layout_weight="2"
+            android:id="@+id/buPlusMinus"
+            android:textColor="@color/orange"
+            android:textSize="25sp"
+            android:text="+/-" />
+
+        <Button
+            style="@style/buttonNumber"
             android:text="0" />
 
         <Button
@@ -138,10 +160,10 @@
 
         <Button
             style="@style/buttonNumber"
-            android:onClick="equalsTap"
             android:background="@color/orange"
-            android:textSize="35sp"
-            android:text="=" />
+            android:onClick="equalsTap"
+            android:text="="
+            android:textSize="35sp" />
 
     </LinearLayout>
 
